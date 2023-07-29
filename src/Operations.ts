@@ -11,7 +11,7 @@ const Add: Operation = {
     canApply(): boolean {
         return true;
     },
-    symbol: "+"
+    symbol: '+'
 }
 const Subtract: Operation = {
     canApply(operandA: number, operandB: number): boolean {
@@ -20,7 +20,7 @@ const Subtract: Operation = {
     apply(operandA: number, operandB: number): number {
         return operandA - operandB;
     },
-    symbol: "-"
+    symbol: '-'
 }
 const Multiply: Operation = {
     apply(operandA: number, operandB: number): number {
@@ -29,7 +29,7 @@ const Multiply: Operation = {
     canApply(): boolean {
         return true
     },
-    symbol: "*"
+    symbol: 'x'
 }
 const Divide: Operation = {
     canApply(operandA: number, operandB: number): boolean {
@@ -38,7 +38,7 @@ const Divide: Operation = {
     apply(operandA: number, operandB: number): number {
         return operandA / operandB;
     },
-    symbol: "/"
+    symbol: '/'
 }
 
 export const Operations = {
