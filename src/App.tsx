@@ -6,7 +6,15 @@ import {Level} from "./Level";
 import {Game} from "./Game";
 
 function App() {
-  const [game, setGame] = useState(() => new Game(new Level()))
+  const [levelNumber, setLevelNumber] = useState(() => {
+    const saved = localStorage.getItem("levelNumber")
+    if (saved == null) {
+      return 1
+    } else {
+      return parseInt(saved)
+    }
+  })
+  const [game, setGame] = useState(() => new Game(new Level(levelNumber)))
   const [selected, setSelect] = useState(-1)
   const [selectedOperation, setOperation] = useState(null as Operation | null)
   const [, updateState] = React.useState({})
@@ -31,10 +39,12 @@ function App() {
 
   function createSelectOperation(op: Operation) {
     return function () {
-      if (op !== selectedOperation) {
-        setOperation(op)
-      } else {
-        setOperation(null)
+      if (selected !== -1) {
+        if (op !== selectedOperation) {
+          setOperation(op)
+        } else {
+          setOperation(null)
+        }
       }
     }
   }
@@ -63,8 +73,22 @@ function App() {
     return result.reverse()
   }
 
+  function previousGame() {
+    if (levelNumber > 1) {
+      const newLevelNumber = levelNumber - 1
+      setLevelNumber(newLevelNumber)
+      localStorage.setItem("levelNumber", ""+newLevelNumber)
+      setGame(new Game(new Level(newLevelNumber)))
+      setSelect(-1)
+      setOperation(null)
+      return false
+    }
+  }
   function newGame() {
-    setGame(new Game(new Level()))
+    const newLevelNumber = levelNumber + 1
+    setLevelNumber(newLevelNumber)
+    localStorage.setItem("levelNumber", ""+newLevelNumber)
+    setGame(new Game(new Level(newLevelNumber)))
     setSelect(-1)
     setOperation(null)
     return false
@@ -83,6 +107,7 @@ function App() {
           Congratulations!
         </div>
         <div id="game">
+          <div>Level {levelNumber}</div>
           <div id="game-prompt-text">Use any combination of numbers to reach the target:</div>
           <div id="target-wrapper">
             <div id="target">{game.target}</div>
@@ -120,7 +145,8 @@ function App() {
             })}
           </div>
           <div id="startnewgame">
-            <button onClick={newGame}>New Game</button>
+            <button onClick={previousGame} hidden={levelNumber <= 1}>Previous Game</button>
+            <button onClick={newGame}>Next Game</button>
           </div>
         </div>
       </div>

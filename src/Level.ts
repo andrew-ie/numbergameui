@@ -7,9 +7,9 @@ export class Level {
     constructor(seed: number = Date.now(),
                 size: number = 6,
                 startIntMin: number = 1,
-                startIntMax: number = 50,
-                destinationIntMin: number = 200,
-                destinationIntMax: number = 500) {
+                startIntMax: number = 35,
+                destinationIntMin: number = 100,
+                destinationIntMax: number = 300) {
         const startTime = Date.now()
         const rng = random.clone(seed)
         const startPoints: number[] = []
