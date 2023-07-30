@@ -19,7 +19,9 @@ function App() {
   const [selectedOperation, setOperation] = useState(null as Operation | null)
   const [, updateState] = React.useState({})
   const forceUpdate = React.useCallback(() => updateState({}), [])
-
+  if (game.solved() && highestSolved() < levelNumber) {
+    localStorage.setItem("highestSolved", ""  + levelNumber)
+  }
   function createSelect(index: number) {
     return function () {
       if (selected === index) {
@@ -101,6 +103,15 @@ function App() {
     }
   }
 
+  function highestSolved(): number {
+    const highestSolved = localStorage.getItem("highestSolved")
+    if (highestSolved != null) {
+      return parseInt(highestSolved)
+    } else {
+      return 0
+    }
+  }
+
   return (
       <div id="main-content">
         <div id="solved-model" hidden={!game.solved()}>
@@ -146,7 +157,7 @@ function App() {
           </div>
           <div id="startnewgame">
             <button onClick={previousGame} hidden={levelNumber <= 1}>Previous Game</button>
-            <button onClick={newGame}>Next Game</button>
+            <button onClick={newGame} hidden={highestSolved() < levelNumber}>Next Game</button>
           </div>
         </div>
       </div>
