@@ -92,9 +92,7 @@ function App() {
 
   function lastGame() {
     const solved = highestSolved()
-    if (solved > 0) {
-      launchLevel(solved)
-    }
+    launchLevel(solved + 1)
   }
 
   function launchLevel(newLevelNumber: number) {
