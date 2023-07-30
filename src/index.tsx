@@ -10,6 +10,11 @@ const root = ReactDOM.createRoot(
 root.render(
   <React.StrictMode>
     <App />
+    <div>
+        <code>
+            Source code is available on <a href="https://github.com/andrew-ie/numbergameui">GitHub</a>
+        </code>
+    </div>
   </React.StrictMode>
 );
 

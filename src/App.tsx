@@ -77,23 +77,32 @@ function App() {
 
   function previousGame() {
     if (levelNumber > 1) {
-      const newLevelNumber = levelNumber - 1
-      setLevelNumber(newLevelNumber)
-      localStorage.setItem("levelNumber", ""+newLevelNumber)
-      setGame(new Game(new Level(newLevelNumber)))
-      setSelect(-1)
-      setOperation(null)
+      launchLevel(levelNumber - 1)
       return false
     }
   }
   function newGame() {
-    const newLevelNumber = levelNumber + 1
+    launchLevel(levelNumber + 1)
+    return false
+  }
+
+  function reset() {
+    launchLevel(1)
+  }
+
+  function lastGame() {
+    const solved = highestSolved()
+    if (solved > 0) {
+      launchLevel(solved)
+    }
+  }
+
+  function launchLevel(newLevelNumber: number) {
     setLevelNumber(newLevelNumber)
     localStorage.setItem("levelNumber", ""+newLevelNumber)
     setGame(new Game(new Level(newLevelNumber)))
     setSelect(-1)
     setOperation(null)
-    return false
   }
 
   function undo() {
@@ -149,15 +158,17 @@ function App() {
                     onClick={createSelectOperation(Operations.Divide)}>{Operations.Divide.symbol}
             </div>
           </div>
-          <div id="solution" hidden={true}>
+          <div id="solution" hidden={localStorage.getItem("cheatmode") !== "true" }>
             {iterate(game.solution).map((edge, index) => {
               return <div
                   key={"solution-line-" + index}>{edge.source.destination[edge.leftIndex]} {edge.operator.symbol} {edge.source.destination[edge.rightIndex]}</div>
             })}
           </div>
           <div id="startnewgame">
-            <button onClick={previousGame} hidden={levelNumber <= 1}>Previous Game</button>
-            <button onClick={newGame} hidden={highestSolved() < levelNumber}>Next Game</button>
+            <div><button onClick={reset} disabled={levelNumber < 2}>First Level</button></div>
+            <div><button onClick={previousGame} disabled={levelNumber <= 1}>Previous</button></div>
+            <div><button onClick={newGame} disabled={highestSolved() < levelNumber}>Next</button></div>
+            <div><button onClick={lastGame} disabled={highestSolved() < levelNumber}>Last Unsolved</button></div>
           </div>
         </div>
       </div>

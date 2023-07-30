@@ -209,6 +209,18 @@ body a {
   margin: auto auto 10px auto;
 }
 
+#startnewgame {
+  display: flex;
+  justify-content: center;
+  align-items: stretch;
+  width: 100%;
+  margin: auto auto 10px auto;
+}
+
+#startnewgame * {
+  margin: 3px;
+}
+
 #operations * {
   margin: 3px;
 }
