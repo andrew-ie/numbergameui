@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import './App.css';
 import {Operation, Operations} from "./Operations";
 import {TransitionEdge} from "./GameGraph";
-import {Level} from "./Level";
+import {Level, StandardNumberProvider} from "./Level";
 import {Game} from "./Game";
 
 function App() {
@@ -14,7 +14,7 @@ function App() {
       return parseInt(saved)
     }
   })
-  const [game, setGame] = useState(() => new Game(new Level(levelNumber)))
+  const [game, setGame] = useState(() => new Game(new Level(levelNumber, new StandardNumberProvider())))
   const [selected, setSelect] = useState(-1)
   const [selectedOperation, setOperation] = useState(null as Operation | null)
   const [, updateState] = React.useState({})
@@ -98,7 +98,7 @@ function App() {
   function launchLevel(newLevelNumber: number) {
     setLevelNumber(newLevelNumber)
     localStorage.setItem("levelNumber", ""+newLevelNumber)
-    setGame(new Game(new Level(newLevelNumber)))
+    setGame(new Game(new Level(newLevelNumber, new StandardNumberProvider())))
     setSelect(-1)
     setOperation(null)
   }
