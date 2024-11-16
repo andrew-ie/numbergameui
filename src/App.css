@@ -244,12 +244,12 @@ body a {
 }
 
 .operation {
-  width: 55px;
-  height: 55px;
+  width: 80px;
+  height: 80px;
   border: none;
   border-radius: 50%;
   outline: none;
-  background-color: black;
+  background-color: white;
 
   color: white;
   align-items: center;
