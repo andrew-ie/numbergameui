@@ -225,27 +225,9 @@ body a {
   margin: 3px;
 }
 
-#undo {
-  width: 55px;
-  height: 55px;
-  border: none;
-  border-radius: 50%;
-  outline: none;
-  color: white;
-  align-items: center;
-  cursor: pointer;
-  display: flex;
-  font-size: 45px;
-  justify-content: center;
-  transition: filter 0.3s;
-  background: var(--digits-medium-green);
-  box-sizing: border-box;
-  padding: 0;
-}
-
 .operation {
-  width: 80px;
-  height: 80px;
+  width: 50px;
+  height: 50px;
   border: none;
   border-radius: 50%;
   outline: none;
@@ -611,42 +593,6 @@ body a {
   min-height: 16px;
 }
 
-.icon-undo {
-  /*background-image: url('../img/Digits-Buttons_Delete-K.svg');*/
-  background-repeat: no-repeat;
-  width: 32px;
-  height: 32px;
-}
-
-.icon-add {
-  /*background-image: url('../img/Digits-Buttons_Add-KWhite.svg');*/
-  background-repeat: no-repeat;
-  width: 32px;
-  height: 32px;
-}
-
-.icon-subtract {
-  /*background-image: url('../img/Digits-Buttons_Subtract-KWhite.svg');*/
-  background-repeat: no-repeat;
-  width: 32px;
-  height: 32px;
-}
-
-.icon-multiply {
-  /*background-image: url('../img/Digits-Buttons_Multiply-KWhite.svg');*/
-  background-repeat: no-repeat;
-  width: 32px;
-  height: 32px;
-}
-
-.icon-divide {
-  /*background-image: url('../img/Digits-Buttons_Divide-KWhite.svg');*/
-  background-repeat: no-repeat;
-  width: 32px;
-  height: 32px;
-}
-
-
 #history-desktop > li.history-entry,
 #solution-desktop > li.solution-entry {
   display: flex;
@@ -985,8 +931,8 @@ button {
   }
 
   #operations button {
-    width: 50px;
-    height: 50px;
+    width: 30px;
+    height: 30px;
     font-size: 32px;
   }
 
