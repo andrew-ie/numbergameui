@@ -4,6 +4,7 @@ import {Operation, Operations} from "./Operations";
 import {TransitionEdge} from "./GameGraph";
 import {Level, StandardNumberProvider} from "./Level";
 import {Game} from "./Game";
+import {BackButton, Add, Subtract, Multiply, Divide} from "./img/Icons";
 
 function App() {
   const [levelNumber, setLevelNumber] = useState(() => {
@@ -143,20 +144,23 @@ function App() {
             }).filter(content => content != null)}
           </div>
           <div id="operations">
-            <div id="undo" onClick={() => undo()}>&#x21a9;</div>
-            <div className={isActiveOperation(Operations.Add, selectedOperation, "operation")} id="add"
-                    onClick={createSelectOperation(Operations.Add)}>{Operations.Add.symbol}</div>
-            <div className={isActiveOperation(Operations.Subtract, selectedOperation, "operation")} id="subtract"
-                    onClick={createSelectOperation(Operations.Subtract)}>{Operations.Subtract.symbol}
+            <div className="operation active" id="undo" onClick={() => undo()}>
+              <BackButton/>
             </div>
-            <div className={isActiveOperation(Operations.Multiply, selectedOperation, "operation")} id="multiply"
-                    onClick={createSelectOperation(Operations.Multiply)}>{Operations.Multiply.symbol}
+            <div className={isActiveOperation(Operations.Add, selectedOperation, "operation")} id="add"
+                 onClick={createSelectOperation(Operations.Add)}><Add/>
+            </div>
+            <div className={isActiveOperation(Operations.Subtract, selectedOperation, "operation")} id="subtract"
+                 onClick={createSelectOperation(Operations.Subtract)}><Subtract/>
             </div>
             <div className={isActiveOperation(Operations.Divide, selectedOperation, "operation")} id="divide"
-                    onClick={createSelectOperation(Operations.Divide)}>{Operations.Divide.symbol}
+                 onClick={createSelectOperation(Operations.Divide)}><Divide/>
+            </div>
+            <div className={isActiveOperation(Operations.Multiply, selectedOperation, "operation")} id="multiply"
+                 onClick={createSelectOperation(Operations.Multiply)}><Multiply/>
             </div>
           </div>
-          <div id="solution" hidden={localStorage.getItem("cheatmode") !== "true" }>
+          <div id="solution" hidden={localStorage.getItem("cheatmode") !== "true"}>
             {iterate(game.solution).map((edge, index) => {
               return <div
                   key={"solution-line-" + index}>{edge.source.destination[edge.leftIndex]} {edge.operator.symbol} {edge.source.destination[edge.rightIndex]}</div>
