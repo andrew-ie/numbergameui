@@ -50,7 +50,7 @@ export class StandardNumberProvider implements NumberProvider {
     ]
 
     getNumbers(rng: Random, size: number): number[] {
-        let currentIndex = this.numbers.length
+        let currentIndex = (this.numbers.length - 1)
         while (currentIndex !== 0) {
             const randomIndex: number = rng.int(0, currentIndex - 1)
             if (randomIndex !== currentIndex) {

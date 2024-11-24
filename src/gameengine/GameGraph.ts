@@ -1,12 +1,12 @@
-import {Operations, Operation} from "./Operations";
-
+import {Operation, Operations} from "./Operations";
+import {Move} from "./Move.ts";
 
 export class Graph {
-    readonly startNode: readonly number[]
+    readonly startNode: RootEdge
     private readonly traceStarts: Map<number, readonly Edge[]>
     constructor(startPoint: number[]) {
-
-        let allEdges = destinations(new RootEdge(startPoint))
+        this.startNode = new RootEdge(startPoint);
+        let allEdges = destinations(this.startNode)
         let nextLevel = allEdges
         while (nextLevel.length > 0) {
             nextLevel = nextLevel.flatMap(function(edge) {
@@ -14,12 +14,11 @@ export class Graph {
             })
             allEdges = allEdges.concat(nextLevel)
         }
-        this.startNode = startPoint
         const traces = new Map<number, Edge[]>()
         allEdges.forEach(function(edge) {
             edge.destination.forEach(function(entry) {
                 if (traces.has(entry)) {
-                    traces.get(entry)!!.push(edge)
+                    (traces.get(entry) as Edge[]).push(edge)
                 } else {
                     traces.set(entry, [edge])
                 }
@@ -31,7 +30,7 @@ export class Graph {
 
     getPossibleDestinations(): number[] {
         return Array.from(this.traceStarts.keys()).filter((value) => {
-            return this.startNode.indexOf(value) === -1
+            return this.startNode.destination.indexOf(value) === -1
         })
     }
 
@@ -45,12 +44,12 @@ export class Graph {
 }
 
 export interface Edge {
-    source: Edge | null
-    destination: number[]
+    readonly source: Edge | null
+    readonly destination: readonly number[]
 }
 export class RootEdge implements Edge {
-    source: null = null
-    destination: number[]
+    readonly source: null = null
+    readonly destination: readonly number[]
 
     constructor(startPoint: number[]) {
         this.destination = startPoint
@@ -58,17 +57,28 @@ export class RootEdge implements Edge {
 }
 
 export class TransitionEdge implements Edge {
-    source: Edge
-    destination: number[]
-    operator: Operation
-    leftIndex: number
-    rightIndex: number
+    readonly source: Edge
+    readonly destination: readonly number[]
+    readonly operator: Operation
+    readonly leftIndex: number
+    readonly rightIndex: number
     constructor(source: Edge, destination: number[], operator: Operation, leftIndex: number, rightIndex: number) {
         this.source = source
         this.destination = destination
         this.operator = operator
         this.leftIndex = leftIndex
         this.rightIndex = rightIndex
+    }
+
+    toMoves(): Move[] {
+        const moves: Move[] = []
+        moves.unshift(new Move(this.source.destination[this.leftIndex], this.operator, this.source.destination[this.rightIndex]))
+        let nextEdge = this.source
+        while (nextEdge instanceof TransitionEdge) {
+            moves.unshift(new Move(nextEdge.source.destination[nextEdge.leftIndex], nextEdge.operator, nextEdge.source.destination[nextEdge.rightIndex]))
+            nextEdge = nextEdge.source
+        }
+        return moves
     }
 }
 
@@ -86,7 +96,6 @@ function destinations(source: Edge): Edge[] {
                 })
                 let op: keyof typeof Operations
 
-                // eslint-disable-next-line @typescript-eslint/no-unused-vars
                 for (op in Operations) {
                     if (Operations[op].canApply(leftValue, rightValue)) {
                         const newValue = Operations[op].apply(leftValue, rightValue)
