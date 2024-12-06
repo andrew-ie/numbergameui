@@ -15,8 +15,8 @@ function GamePanel() {
             </Box>
             {gameState.game.getMoves().map((move, index) =>
                 <Box component="section" key={"history" + index}>
-                    <Grid2 container={true}>
-                        <Grid2 size={7}>
+                    <Grid2 container={true} spacing={2}>
+                        <Grid2 size={10}>
                             {move.toString()}
                         </Grid2>
                         <Grid2 size={2}>
@@ -28,15 +28,15 @@ function GamePanel() {
                 </Box>
             )}
             <Box component="section">
-                <Grid2 container={true}>
-                    <Grid2 size={4}>
+                <Grid2 container={true} spacing={2}>
+                    <Grid2 size={{sm: 10, md: 5}}>
                         <ButtonGroup>
                             {gameState.game.numbers().map((value, index) =>
                                 <Button key={`Option${index}`} value={index} variant={(gameState.currentLeft === index || gameState.currentRight === index) ? "contained" : "outlined" } hidden={value < 0} onClick={() => {setGameState(gameState.toggle(index))}}>{value}</Button>
                             )}
                         </ButtonGroup>
                     </Grid2>
-                    <Grid2 size={3}>
+                    <Grid2 size={{sm: 10, md: 5}}>
                         <ButtonGroup>
                             <Button key="plus" variant={(gameState.currentSelectedOperation == Operations.Add) ? "contained" : "outlined"} onClick={() => setGameState(gameState.updateOperation(Operations.Add))}>{Operations.Add.symbol}</Button>
                             <Button key="minus" variant={(gameState.currentSelectedOperation == Operations.Subtract) ? "contained" : "outlined"} onClick={() => setGameState(gameState.updateOperation(Operations.Subtract))}>{Operations.Subtract.symbol}</Button>
