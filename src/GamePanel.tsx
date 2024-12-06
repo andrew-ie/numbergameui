@@ -6,7 +6,7 @@ import {Operations} from "./gameengine/Operations.ts";
 function GamePanel() {
     const [gameState, setGameState] = useState(() => buildGame(localStorage))
     return (
-        <Container maxWidth="sm">
+        <Container maxWidth="md">
             <Box component="h3">
                 Level {gameState.currentLevel} / {(gameState.currentHighestSolved + 1)}
             </Box>
@@ -29,12 +29,14 @@ function GamePanel() {
             )}
             <Box component="section">
                 <Grid2 container={true} spacing={2}>
-                    <Grid2 size="grow">
+                    <Grid2 size={{sm: 10, md: 5}}>
                         <ButtonGroup>
                             {gameState.game.numbers().map((value, index) =>
                                 <Button key={`Option${index}`} value={index} variant={(gameState.currentLeft === index || gameState.currentRight === index) ? "contained" : "outlined" } hidden={value < 0} onClick={() => {setGameState(gameState.toggle(index))}}>{value}</Button>
                             )}
-                        </ButtonGroup>&nbsp;&nbsp;
+                        </ButtonGroup>
+                    </Grid2>
+                    <Grid2 size={{sm: 10, md: 5}}>
                         <ButtonGroup>
                             <Button key="plus" variant={(gameState.currentSelectedOperation == Operations.Add) ? "contained" : "outlined"} onClick={() => setGameState(gameState.updateOperation(Operations.Add))}>{Operations.Add.symbol}</Button>
                             <Button key="minus" variant={(gameState.currentSelectedOperation == Operations.Subtract) ? "contained" : "outlined"} onClick={() => setGameState(gameState.updateOperation(Operations.Subtract))}>{Operations.Subtract.symbol}</Button>
