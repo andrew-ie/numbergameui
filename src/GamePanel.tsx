@@ -57,7 +57,7 @@ function GamePanel() {
                         <Grid2 size={{sm: 10, md: 5}}>
                             <ButtonGroup>
                                 {gameState.game.numbers().map((value, index) =>
-                                    <Button key={`Option${index}`} value={index}
+                                    <Button key={`Option${index}`} value={index} size="large"
                                             variant={(gameState.currentLeft === index || gameState.currentRight === index) ? "contained" : "outlined"}
                                             hidden={value < 0} onClick={() => {
                                         setGameState(gameState.toggle(index))
@@ -67,16 +67,16 @@ function GamePanel() {
                         </Grid2>
                         <Grid2 size={{sm: 10, md: 5}}>
                             <ButtonGroup>
-                                <Button key="plus"
+                                <Button key="plus" size="large"
                                         variant={(gameState.currentSelectedOperation == Operations.Add) ? "contained" : "outlined"}
                                         onClick={() => setGameState(gameState.updateOperation(Operations.Add))}>{Operations.Add.symbol}</Button>
-                                <Button key="minus"
+                                <Button key="minus" size="large"
                                         variant={(gameState.currentSelectedOperation == Operations.Subtract) ? "contained" : "outlined"}
                                         onClick={() => setGameState(gameState.updateOperation(Operations.Subtract))}>{Operations.Subtract.symbol}</Button>
-                                <Button key="multiply"
+                                <Button key="multiply" size="large"
                                         variant={(gameState.currentSelectedOperation == Operations.Multiply) ? "contained" : "outlined"}
                                         onClick={() => setGameState(gameState.updateOperation(Operations.Multiply))}>{Operations.Multiply.symbol}</Button>
-                                <Button key="divide"
+                                <Button key="divide" size="large"
                                         variant={(gameState.currentSelectedOperation == Operations.Divide) ? "contained" : "outlined"}
                                         onClick={() => setGameState(gameState.updateOperation(Operations.Divide))}>{Operations.Divide.symbol}</Button>
                             </ButtonGroup>
@@ -84,7 +84,7 @@ function GamePanel() {
                         <Grid2 size={2}>
                             <ButtonGroup
                                 disabled={gameState.currentLevel === undefined || gameState.currentRight === undefined || gameState.currentSelectedOperation === undefined}>
-                                <Button key="move" onClick={() => setGameState(gameState.move())}>Apply</Button>
+                                <Button key="move" size="large" onClick={() => setGameState(gameState.move())}>Apply</Button>
                             </ButtonGroup>
                         </Grid2>
                     </Grid2>
@@ -93,19 +93,12 @@ function GamePanel() {
                     <ButtonGroup>
                         <Button disabled={gameState.currentLevel === 1} variant="contained"
                                 hidden={gameState.currentLevel < 2}
-                                onClick={() => setGameState(gameState.updateLevel(1))}>First Level</Button>
-                        <Button disabled={gameState.currentLevel === 1} variant="contained"
-                                hidden={gameState.currentLevel < 2}
                                 onClick={() => setGameState(gameState.updateLevel(gameState.currentLevel - 1))}>Previous
                             Level</Button>
                         <Button
                             disabled={!gameState.game.solved() && gameState.currentHighestSolved < gameState.currentLevel}
                             key="nextGame" variant="contained"
                             onClick={() => setGameState(gameState.nextGame(localStorage, false))}>Next Level</Button>
-                        <Button
-                            disabled={!gameState.game.solved() && gameState.currentHighestSolved < gameState.currentLevel}
-                            key="lastGame" variant="contained"
-                            onClick={() => setGameState(gameState.nextGame(localStorage, true))}>Last Level</Button>
                     </ButtonGroup>
                 </Box>
             </Container>

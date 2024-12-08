@@ -12,7 +12,7 @@ const Add: Operation = {
     canApply(): boolean {
         return true;
     },
-    symbol: '＋', toString(operandA: number, operandB: number): string {
+    symbol: '+', toString(operandA: number, operandB: number): string {
         return `${operandA} ${this.symbol} ${operandB} = ${this.apply(operandA, operandB)}`;
     }
 
@@ -28,7 +28,7 @@ const Subtract: Operation = {
             return operandB - operandA
         }
     },
-    symbol: '－',
+    symbol: '-',
     toString(operandA: number, operandB: number): string {
         if (operandA > operandB) {
             return `${operandA} ${this.symbol} ${operandB} = ${this.apply(operandA, operandB)}`;
