@@ -1,5 +1,5 @@
 import {Box, Button, Container, Grid2} from "@mui/material";
-import {NumberInput} from "@mui/base/Unstable_NumberInput/NumberInput";
+import {NumberField} from "@base-ui/react";
 import {useState} from "react";
 import {Graph} from "./gameengine/GameGraph.ts";
 
@@ -13,24 +13,36 @@ function SolvePanel() {
                 Solve Puzzle
             </Box>
             <Box component="h1">
-                <NumberInput min={100} max={999} step={1} value={target} placeholder="Target number"
-                             onChange={(_, value) => {
-                                 if (value) {
-                                     setTarget(value)
-                                 }
-                             }}/>
+                <NumberField.Root key="root" min={100} max={999} value={target} onValueChange={(value, _) => { if (value) { setTarget(value) }}}>
+                    <NumberField.ScrubArea>
+                        <NumberField.ScrubAreaCursor />
+                    </NumberField.ScrubArea>
+                    <NumberField.Group>
+                        <NumberField.Decrement />
+                        <NumberField.Input />
+                        <NumberField.Increment />
+                    </NumberField.Group>
+                </NumberField.Root>
             </Box>
             <Box component="section" hidden={graph !== null}>
                 <Grid2 container={true} maxWidth="lg">
-                    {startPoints.map((_, index) =>
-                        <Grid2 width={1}>
-                            <NumberInput disabled={graph !== null} value={startPoints[index]} min={1} max={100}
-                                         key={`Tile${index}`} placeholder={`Start Point ${index + 1}`}
-                                         onChange={(_, value) => {
-                                             if (value != null) {
-                                                 setStartPoints(startPoints.map((currValue, startIndex) => (startIndex == index) ? value : currValue))
-                                             }
-                                         }}/>
+                    {startPoints.map((startValue, index) =>
+                        <Grid2 width={1} key={`tile${index}`}>
+                            <NumberField.Root disabled={graph !== null} value={startValue} min={1} max={100}
+                                         key={`Tile${index}`} placeholder={`Start Point ${index + 1}`} onValueCommitted={(value, _) => {
+                                if (value) {
+                                    setStartPoints(startPoints.map((currValue, startIndex) => (startIndex == index) ? value : currValue))
+                                }
+                            }}>
+                                <NumberField.ScrubArea>
+                                    <NumberField.ScrubAreaCursor />
+                                </NumberField.ScrubArea>
+                                <NumberField.Group>
+                                    <NumberField.Decrement/>
+                                    <NumberField.Input />
+                                    <NumberField.Increment />
+                                </NumberField.Group>
+                            </NumberField.Root>
                         </Grid2>
                     )}
                 </Grid2>
@@ -40,9 +52,9 @@ function SolvePanel() {
                         onClick={() => setGraph(new Graph(startPoints as number[]))}>SOLVE</Button>
             </Box>
             <Box hidden={graph === null}>
-                {graph?.solutions(target!)?.map((solution, solutionIndex) =>
-                    <Container>
-                        <Box component="h4">Solution {solutionIndex}</Box>
+                {graph?.solutions(target!)?.slice(0, 100)?.map((solution, solutionIndex) =>
+                    <Container key={`solution${solutionIndex}`}>
+                        <Box component="h4">Solution {(solutionIndex + 1)}</Box>
                         <Grid2 container={true} maxWidth="lg" key={`solution${solutionIndex}`}>
                             {solution.toMoves().map((move, index) =>
                                 <Grid2 size={7} key={`move${index}`}>
