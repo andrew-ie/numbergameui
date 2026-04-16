@@ -29,7 +29,7 @@ function SolvePanel() {
                     {startPoints.map((startValue, index) =>
                         <Grid2 width={1} key={`tile${index}`}>
                             <NumberField.Root disabled={graph !== null} value={startValue} min={1} max={100}
-                                         key={`Tile${index}`} placeholder={`Start Point ${index + 1}`} onValueCommitted={(value, _) => {
+                                         key={`Tile${index}`} onValueCommitted={(value, _) => {
                                 if (value) {
                                     setStartPoints(startPoints.map((currValue, startIndex) => (startIndex == index) ? value : currValue))
                                 }
